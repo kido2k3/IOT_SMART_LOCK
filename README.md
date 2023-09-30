@@ -11,3 +11,8 @@ This repository for the project in HCMUT
   +  Configuring the input password
   +  Adding more fingerprint
   +  Opening remotely via Internet.
+# Reference
+-  Debouncing button
+  +  http://www.ganssle.com/debouncing-pt2.htm
+  +  https://www.instructables.com/STM32CubeMX-Button-Debounce-With-Interrupt/
+  +  https://www.youtube.com/watch?v=hFnGF3qVnF4&t=465s&ab_channel=chipfc
