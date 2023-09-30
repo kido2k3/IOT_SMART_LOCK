@@ -8,9 +8,9 @@ This repository for the project in HCMUT
 -  If a person fill in the wrong password exceeding 3 times, notifying to owners' smartphone with a picture of that person.
 -  Alarming the intruder with a buzzer.
 -  Controlling by the smartphone:
- +  Configuring the input password
-  +  Adding more fingerprint
-  +  Opening remotely via Internet.
+ -  Configuring the input password
+ -  Adding more fingerprint
+ -  Opening remotely via Internet.
 # Reference
 -  Debouncing button
   +  http://www.ganssle.com/debouncing-pt2.htm
