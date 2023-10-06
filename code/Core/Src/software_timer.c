@@ -22,4 +22,3 @@ void run_timer( s_timer *timer) {
 		}
 	}
 }
-
