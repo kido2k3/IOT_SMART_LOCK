@@ -52,9 +52,9 @@ uint8_t line = 1;
  void PulseEnable(uint8_t);
  void DelayInit(void);
  void DelayUS(uint32_t);
- void HD44780_Home();
+ void LCD_Home();
 
-void HD44780_Init() {
+void LCD_Init() {
 	dpRows = 2;
 
 	dpBacklight = LCD_BACKLIGHT;
@@ -85,30 +85,30 @@ void HD44780_Init() {
 	SendCommand(LCD_FUNCTIONSET | dpFunction);
 
 	dpControl = LCD_DISPLAYON | LCD_CURSOROFF;
-	//HD44780_Display();
+	//LCD_Display();
 	dpControl |= LCD_DISPLAYON;
 	SendCommand(LCD_DISPLAYCONTROL | dpControl);
-	HD44780_Clear();
+	LCD_Clear();
 
 	/* Display Mode */
 	dpMode = LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT;
 	SendCommand(LCD_ENTRYMODESET | dpMode);
 	DelayUS(4500);
 
-	HD44780_Home();
+	LCD_Home();
 }
 
-void HD44780_Clear() {
+void LCD_Clear() {
 	SendCommand(LCD_CLEARDISPLAY);
 	DelayUS(2000);
 }
 
-void HD44780_Home() {
+void LCD_Home() {
 	SendCommand(LCD_RETURNHOME);
 	DelayUS(2000);
 }
 
-void HD44780_SetCursor(uint8_t col, uint8_t row) {
+void LCD_SetCursor(uint8_t col, uint8_t row) {
 	int row_offsets[] = { 0x00, 0x40, 0x14, 0x54 };
 	if (row >= dpRows) {
 		row = dpRows - 1;
@@ -116,7 +116,7 @@ void HD44780_SetCursor(uint8_t col, uint8_t row) {
 	SendCommand(LCD_SETDDRAMADDR | (col + row_offsets[row]));
 }
 
-void HD44780_Display() {
+void LCD_Display() {
 	dpControl |= LCD_DISPLAYON;
 	SendCommand(LCD_DISPLAYCONTROL | dpControl);
 }
@@ -127,13 +127,13 @@ void LCD_display(const char c1[], const char c2[]) {
 		if (*c1) {
 			SendChar(c1[idx++]);
 			if (idx >= strlen(c1)) {
-				HD44780_SetCursor(0, 1);
+				LCD_SetCursor(0, 1);
 				idx = 0;
 				line = 2;
 			}
 
 		} else {
-			HD44780_SetCursor(0, 1);
+			LCD_SetCursor(0, 1);
 			line = 2;
 		}
 
@@ -142,13 +142,13 @@ void LCD_display(const char c1[], const char c2[]) {
 		if (*c2) {
 			SendChar(c2[idx++]);
 			if (idx >= strlen(c2)) {
-				HD44780_SetCursor(0, 0);
+				LCD_SetCursor(0, 0);
 				idx = 0;
 				line = 1;
 			}
 
 		} else {
-			HD44780_SetCursor(0, 0);
+			LCD_SetCursor(0, 0);
 			line = 1;
 		}
 	default:

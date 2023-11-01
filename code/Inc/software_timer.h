@@ -13,7 +13,7 @@ typedef struct{
 	unsigned long count;
 	unsigned freq;
 }s_timer;
-s_timer my_timer[2];
+extern s_timer my_timer[2];
 void init_timer( s_timer* timer, const unsigned freq);
 void set_timer( s_timer* timer, const unsigned long time);
 void run_timer( s_timer* timer);

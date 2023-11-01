@@ -6,10 +6,8 @@
 #include "port.h"
 /* Command */
 
-
-void HD44780_Init();
-void HD44780_Clear();
+void LCD_Init();
+void LCD_Clear();
 void LCD_display(const char[], const char[]);
-
 
 #endif /* LIQUIDCRYSTAL_I2C_H_ */

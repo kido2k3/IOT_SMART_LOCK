@@ -8,7 +8,7 @@
 #include "fsm.h"
 s_timer timer;
 void my_intial(state *st, I2C_HandleTypeDef *hi2c) {
-	LCD_Init();
+	//LCD_Init();
 	init_timer(&timer, FREQ);
 	set_timer(&timer, 2000);
 	st = led_on;
