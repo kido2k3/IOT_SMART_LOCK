@@ -112,6 +112,12 @@ void keypad_init(void) {
 	HAL_GPIO_WritePin(KEYPAD_C_PORT, KEYPAD_C2_PIN, 0);
 	HAL_GPIO_WritePin(KEYPAD_C_PORT, KEYPAD_C1_PIN, 0);
 }
+uint8_t keypad_ReadFlag(void) {
+	return keyPressed;
+}
+void keypad_ResetFlag(void) {
+	keyPressed = UNPRESSED;
+}
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	keypad_scan(GPIO_Pin);
 }

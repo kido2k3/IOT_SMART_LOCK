@@ -11,7 +11,8 @@
 #include"my_define.h"
 
 #define UNPRESSED 0xff
-extern uint8_t keyPressed;
 
 void keypad_init(void);
+uint8_t keypad_ReadFlag(void);
+void keypad_ResetFlag(void);
 #endif /* INC_MY_KEYPAD_H_ */

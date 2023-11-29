@@ -1,0 +1,2 @@
+../Core/Src/my_fsm.c:16:13:fsm_keypad	16	static
+../Core/Src/my_fsm.c:61:6:fsm_lock	8	static

@@ -2,6 +2,7 @@
 "./Core/Src/my_fsm.o"
 "./Core/Src/my_keypad.o"
 "./Core/Src/my_lcd.o"
+"./Core/Src/my_password.o"
 "./Core/Src/my_scheduler.o"
 "./Core/Src/my_sensor.o"
 "./Core/Src/my_system.o"

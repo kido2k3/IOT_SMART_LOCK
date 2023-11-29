@@ -11,9 +11,9 @@ static void toggle_led(void) {
 	HAL_GPIO_TogglePin(DEBUG_LED_PORT, DEBUG_LED_PIN);
 }
 static void test_keypad(void){
-	if(keyPressed == 5){
+	if(keypad_ReadFlag() == 5){
 		toggle_led();
-		keyPressed = UNPRESSED;
+		keypad_ResetFlag();
 	}
 }
 void init(void) {
