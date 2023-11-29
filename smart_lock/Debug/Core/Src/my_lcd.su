@@ -1,0 +1,14 @@
+../Core/Src/my_lcd.c:65:6:LCD_Init	8	static
+../Core/Src/my_lcd.c:109:6:LCD_Clear	8	static
+../Core/Src/my_lcd.c:114:6:LCD_Home	8	static
+../Core/Src/my_lcd.c:119:6:LCD_SetCursor	40	static
+../Core/Src/my_lcd.c:127:6:LCD_Display	8	static
+../Core/Src/my_lcd.c:132:6:LCD_display	24	static
+../Core/Src/my_lcd.c:168:7:SendCommand	16	static
+../Core/Src/my_lcd.c:172:7:SendChar	16	static
+../Core/Src/my_lcd.c:176:7:Send	24	static
+../Core/Src/my_lcd.c:183:7:Write4Bits	16	static
+../Core/Src/my_lcd.c:188:7:ExpanderWrite	32	static
+../Core/Src/my_lcd.c:193:7:PulseEnable	16	static
+../Core/Src/my_lcd.c:201:7:DelayInit	4	static,ignoring_inline_asm
+../Core/Src/my_lcd.c:216:7:DelayUS	32	static
