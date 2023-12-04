@@ -1,0 +1,2 @@
+../Core/Src/my_uart.c:13:6:uart_SendInPW	1
+../Core/Src/my_uart.c:19:6:uart_SendPressedKey	1

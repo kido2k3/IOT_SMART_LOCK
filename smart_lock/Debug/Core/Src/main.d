@@ -28,7 +28,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/my_system.h ../Core/Inc/my_define.h ../Core/Inc/my_buzzer.h \
  ../Core/Inc/my_fsm.h ../Core/Inc/my_keypad.h ../Core/Inc/my_password.h \
  ../Core/Inc/my_scheduler.h ../Core/Inc/my_lcd.h ../Core/Inc/my_sensor.h \
- ../Core/Inc/my_uart.h
+ ../Core/Inc/my_uart.h ../Core/Inc/my_lock.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 ../Core/Inc/stm32f1xx_hal_conf.h:
@@ -66,3 +66,4 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/my_lcd.h:
 ../Core/Inc/my_sensor.h:
 ../Core/Inc/my_uart.h:
+../Core/Inc/my_lock.h:

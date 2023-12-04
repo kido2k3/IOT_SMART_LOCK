@@ -9,6 +9,8 @@
 #define INC_MY_SCHEDULER_H_
 
 #include"my_define.h"
+#include "my_keypad.h"
+#include "my_lcd.h"
 #include<stdlib.h>
 void sch_update(void);
 void sch_init(void);

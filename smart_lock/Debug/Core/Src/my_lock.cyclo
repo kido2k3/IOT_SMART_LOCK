@@ -1,0 +1,2 @@
+../Core/Src/my_lock.c:11:6:lock_open	1
+../Core/Src/my_lock.c:15:6:lock_close	1

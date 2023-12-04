@@ -19,6 +19,13 @@ bool pw_update(uint8_t number) {
 	password_buf[pw_idx++] = number + '0';
 	return 1;
 }
-uint8_t pw_idxGet(void){
+uint8_t pw_idxGet(void) {
 	return pw_idx;
+}
+char* pw_ReturnInput(void) {
+	return password_buf;
+}
+
+bool pw_checkInPW(void) {
+	return strcmp(password, password_buf) != 0;
 }

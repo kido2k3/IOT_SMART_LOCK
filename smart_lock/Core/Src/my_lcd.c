@@ -104,6 +104,7 @@ void LCD_Init() {
 	DelayUS(4500);
 
 	LCD_Home();
+
 }
 
 void LCD_Clear() {

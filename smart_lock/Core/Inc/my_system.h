@@ -16,8 +16,7 @@
 #include"my_lcd.h"
 #include"my_sensor.h"
 #include"my_uart.h"
-
-
+#include "my_lock.h"
 void init(void);
 void loop(void);
 #endif /* INC_MY_SYSTEM_H_ */

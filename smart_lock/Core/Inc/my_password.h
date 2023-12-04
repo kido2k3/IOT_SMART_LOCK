@@ -11,4 +11,6 @@
 
 bool pw_update(uint8_t number);
 uint8_t pw_idxGet(void);
+char* pw_ReturnInput(void);
+bool pw_checkInPW(void);
 #endif /* INC_MY_PASSWORD_H_ */

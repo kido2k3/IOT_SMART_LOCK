@@ -35,6 +35,8 @@ struct
 extern TIM_HandleTypeDef htim2;
 void sch_init(void){
 	HAL_TIM_Base_Start_IT(&htim2);
+	keypad_init();
+	//LCD_Init();
 }
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == htim2.Instance){

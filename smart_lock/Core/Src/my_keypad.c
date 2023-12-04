@@ -14,7 +14,7 @@ uint8_t keyPressed = UNPRESSED;
 
 static void keypad_scan(uint16_t GPIO_Pin) {
 	currentMillis = HAL_GetTick();
-	if (currentMillis - previousMillis > 10) {
+	if (currentMillis - previousMillis > 1000) {
 		/*Configure GPIO pins :  to GPIO_INPUT*/
 		GPIO_InitStructPrivate.Pin = KEYPAD_R1_PIN | KEYPAD_R2_PIN
 				| KEYPAD_R3_PIN | KEYPAD_R4_PIN;
