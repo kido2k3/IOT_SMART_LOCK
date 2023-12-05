@@ -18,6 +18,6 @@ void uart_SendInPW(void) {
 
 void uart_SendPressedKey(uint8_t key) {
 	char str[30];
-	uint8_t len = sprintf(str,"#Key:%u!\n",&key);
+	uint8_t len = sprintf(str,"#Key:%u!\n",key);
 	HAL_UART_Transmit(&huart2, (void*)str, len, 10);
 }

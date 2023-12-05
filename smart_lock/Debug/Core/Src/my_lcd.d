@@ -25,7 +25,7 @@ Core/Src/my_lcd.o: ../Core/Src/my_lcd.c ../Core/Inc/my_lcd.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
- ../Core/Inc/my_define.h
+ ../Core/Inc/my_define.h ../Core/Inc/my_password.h
 ../Core/Inc/my_lcd.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 ../Core/Inc/stm32f1xx_hal_conf.h:
@@ -54,3 +54,4 @@ Core/Src/my_lcd.o: ../Core/Src/my_lcd.c ../Core/Inc/my_lcd.h \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
 ../Core/Inc/my_define.h:
+../Core/Inc/my_password.h:

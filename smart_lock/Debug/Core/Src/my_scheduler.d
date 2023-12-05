@@ -1,5 +1,6 @@
 Core/Src/my_scheduler.o: ../Core/Src/my_scheduler.c \
- ../Core/Inc/my_scheduler.h ../Core/Inc/my_define.h \
+ ../Core/Inc/my_scheduler.h ../Core/Inc/my_keypadTTP229.h \
+ ../Core/Inc/my_define.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
@@ -26,8 +27,9 @@ Core/Src/my_scheduler.o: ../Core/Src/my_scheduler.c \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
- ../Core/Inc/my_keypad.h ../Core/Inc/my_lcd.h
+ ../Core/Inc/my_lcd.h ../Core/Inc/my_password.h
 ../Core/Inc/my_scheduler.h:
+../Core/Inc/my_keypadTTP229.h:
 ../Core/Inc/my_define.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 ../Core/Inc/stm32f1xx_hal_conf.h:
@@ -55,5 +57,5 @@ Core/Src/my_scheduler.o: ../Core/Src/my_scheduler.c \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
-../Core/Inc/my_keypad.h:
 ../Core/Inc/my_lcd.h:
+../Core/Inc/my_password.h:

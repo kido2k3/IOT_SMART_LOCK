@@ -1,7 +1,2 @@
-../Core/Src/my_system.c:10:13:toggle_led	8	static
-../Core/Src/my_system.c:13:13:test_lcd	16	static
-../Core/Src/my_system.c:16:13:test_uart	16	static
-../Core/Src/my_system.c:20:13:test_keypad	16	static
-../Core/Src/my_system.c:29:13:test_lock	8	static
-../Core/Src/my_system.c:33:6:init	8	static
-../Core/Src/my_system.c:39:6:loop	8	static
+../Core/Src/my_system.c:40:6:init	8	static
+../Core/Src/my_system.c:52:6:loop	8	static

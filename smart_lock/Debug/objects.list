@@ -1,6 +1,6 @@
 "./Core/Src/main.o"
 "./Core/Src/my_fsm.o"
-"./Core/Src/my_keypad.o"
+"./Core/Src/my_keypadTTP229.o"
 "./Core/Src/my_lcd.o"
 "./Core/Src/my_lock.o"
 "./Core/Src/my_password.o"

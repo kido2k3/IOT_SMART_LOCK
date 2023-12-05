@@ -1,5 +1,0 @@
-../Core/Src/my_keypad.c:15:13:keypad_scan	34
-../Core/Src/my_keypad.c:109:6:keypad_init	1
-../Core/Src/my_keypad.c:115:9:keypad_ReadFlag	1
-../Core/Src/my_keypad.c:118:6:keypad_ResetFlag	1
-../Core/Src/my_keypad.c:121:6:HAL_GPIO_EXTI_Callback	1

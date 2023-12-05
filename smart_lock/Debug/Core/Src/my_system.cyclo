@@ -1,7 +1,2 @@
-../Core/Src/my_system.c:10:13:toggle_led	1
-../Core/Src/my_system.c:13:13:test_lcd	1
-../Core/Src/my_system.c:16:13:test_uart	1
-../Core/Src/my_system.c:20:13:test_keypad	2
-../Core/Src/my_system.c:29:13:test_lock	1
-../Core/Src/my_system.c:33:6:init	1
-../Core/Src/my_system.c:39:6:loop	1
+../Core/Src/my_system.c:40:6:init	1
+../Core/Src/my_system.c:52:6:loop	1

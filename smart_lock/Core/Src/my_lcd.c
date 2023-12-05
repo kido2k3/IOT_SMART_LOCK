@@ -5,7 +5,6 @@
  *      Author: HP
  */
 
-
 #include"my_lcd.h"
 
 #define LCD_CLEARDISPLAY 0x01
@@ -34,12 +33,11 @@
 /* Enable Bit */
 #define ENABLE 0x04
 
-
 /* Register Select Bit */
 #define RS 0x01
 
 /* Device I2C Address */
-#define DEVICE_ADDR     (0x27 << 1)
+#define DEVICE_ADDR     (0x3F << 1)
 
 extern I2C_HandleTypeDef hi2c1;
 
@@ -52,15 +50,41 @@ uint8_t dpBacklight;
 uint8_t idx = 0;
 uint8_t line = 1;
 
- void SendCommand(uint8_t);
- void SendChar(uint8_t);
- void Send(uint8_t, uint8_t);
- void Write4Bits(uint8_t);
- void ExpanderWrite(uint8_t);
- void PulseEnable(uint8_t);
- void DelayInit(void);
- void DelayUS(uint32_t);
- void LCD_Home();
+void SendCommand(uint8_t);
+void SendChar(uint8_t);
+void Send(uint8_t, uint8_t);
+void Write4Bits(uint8_t);
+void ExpanderWrite(uint8_t);
+void PulseEnable(uint8_t);
+void DelayInit(void);
+void DelayUS(uint32_t);
+void LCD_Home();
+
+
+void lcd_displayPW(void){
+	char str[20];
+	uint8_t i = 0;
+	for(; i < pw_idxGet();i++){
+		str[i] = '*';
+	}
+	str[i] = '\0';
+	LCD_display("PIN", str);
+}
+void lcd_displaySuccess(void){
+	LCD_display("     CHANGE", "  SUCCESSFULLY");
+}
+void lcd_displayNormal(void){
+	LCD_display("    WELCOME TO", "     MY ROOM");
+}
+void lcd_displayPW_change(void){
+	char str[20];
+	uint8_t i = 0;
+	for(; i < pw_idxGet();i++){
+		str[i] = '*';
+	}
+	str[i] = '\0';
+	LCD_display("PIN 5 DIGITS", str);
+}
 
 void LCD_Init() {
 	dpRows = 2;
@@ -131,67 +155,41 @@ void LCD_Display() {
 }
 
 void LCD_display(const char c1[], const char c2[]) {
-	switch (line) {
-	case 1:
-		if (*c1) {
-			SendChar(c1[idx++]);
-			if (idx >= strlen(c1)) {
-				LCD_SetCursor(0, 1);
-				idx = 0;
-				line = 2;
-			}
-
-		} else {
-			LCD_SetCursor(0, 1);
-			line = 2;
-		}
-
-		break;
-	case 2:
-		if (*c2) {
-			SendChar(c2[idx++]);
-			if (idx >= strlen(c2)) {
-				LCD_SetCursor(0, 0);
-				idx = 0;
-				line = 1;
-			}
-
-		} else {
-			LCD_SetCursor(0, 0);
-			line = 1;
-		}
-	default:
-		break;
-	}
-
+	LCD_Clear();
+	LCD_SetCursor(0, 0);
+	while (*c1)
+		SendChar(*c1++);
+	LCD_SetCursor(0, 1);
+	while (*c2)
+		SendChar(*c2++);
 }
 
- void SendCommand(uint8_t cmd) {
+void SendCommand(uint8_t cmd) {
 	Send(cmd, 0);
 }
 
- void SendChar(uint8_t ch) {
+void SendChar(uint8_t ch) {
 	Send(ch, RS);
 }
 
- void Send(uint8_t value, uint8_t mode) {
+void Send(uint8_t value, uint8_t mode) {
 	uint8_t highnib = value & 0xF0;
 	uint8_t lownib = (value << 4) & 0xF0;
 	Write4Bits((highnib) | mode);
 	Write4Bits((lownib) | mode);
 }
 
- void Write4Bits(uint8_t value) {
+void Write4Bits(uint8_t value) {
 	ExpanderWrite(value);
 	PulseEnable(value);
 }
 
- void ExpanderWrite(uint8_t _data) {
+void ExpanderWrite(uint8_t _data) {
 	uint8_t data = _data | dpBacklight;
 	HAL_I2C_Master_Transmit(&hi2c1, DEVICE_ADDR, (uint8_t*) &data, 1, 10);
 }
 
- void PulseEnable(uint8_t _data) {
+void PulseEnable(uint8_t _data) {
 	ExpanderWrite(_data | ENABLE);
 	DelayUS(20);
 
@@ -199,7 +197,7 @@ void LCD_display(const char c1[], const char c2[]) {
 	DelayUS(20);
 }
 
- void DelayInit(void) {
+void DelayInit(void) {
 	CoreDebug->DEMCR &= ~CoreDebug_DEMCR_TRCENA_Msk;
 	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 
@@ -214,7 +212,7 @@ void LCD_display(const char c1[], const char c2[]) {
 	__ASM volatile ("NOP");
 }
 
- void DelayUS(uint32_t us) {
+void DelayUS(uint32_t us) {
 	uint32_t cycles = (SystemCoreClock / 1000000L) * us;
 	uint32_t start = DWT->CYCCNT;
 	volatile uint32_t cnt;
