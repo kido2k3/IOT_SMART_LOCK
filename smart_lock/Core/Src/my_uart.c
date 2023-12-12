@@ -10,6 +10,10 @@
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
 
+static uint8_t uart_data;
+void uart_fp_init(void){
+	HAL_UART_Receive_IT(&huart1, &uart_data, 1);
+}
 void uart_SendInPW(void) {
 	char str[30];
 	uint8_t len = sprintf(str,"#InPW:%s!\n",pw_ReturnInput());
@@ -20,4 +24,10 @@ void uart_SendPressedKey(uint8_t key) {
 	char str[30];
 	uint8_t len = sprintf(str,"#Key:%u!\n",key);
 	HAL_UART_Transmit(&huart2, (void*)str, len, 10);
+}
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+	if (huart->Instance == huart1.Instance) {
+		fp_receive_data(uart_data);
+		HAL_UART_Receive_IT(&huart1, &uart_data, 1);
+	}
 }

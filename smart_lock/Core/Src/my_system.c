@@ -6,7 +6,7 @@
  */
 
 #include"my_system.h"
-//#define TESTING
+
 #ifdef TESTING
 
 static void toggle_led(void) {
@@ -38,20 +38,17 @@ static void test_lock(void) {
 }
 #endif
 void init(void) {
-	sch_init();
-	LCD_Init();
-	LCD_Clear();
-	keypad_init();
-	sch_add_task(keypad_read, 0, 75);
-	sch_add_task(fsm_lock, 0, 10);
-	//sch_add_task(toggle_led, 0, 1000);
-	//sch_add_task(test_lock, 0, 7000);
-
+//	sch_init();
+//	LCD_Init();
+//	LCD_Clear();
+//	keypad_init();
+//	sch_add_task(keypad_read, 0, 75);
+//	sch_add_task(fsm_lock, 0, 10);
+	fp_init();
 }
 
 void loop(void) {
-	sch_dispatch();
-	//test_keypad();
+	//sch_dispatch();
 
 }
 

@@ -1,0 +1,9 @@
+../Core/Src/my_fingerprintAS608.c:51:6:fp_init	1
+../Core/Src/my_fingerprintAS608.c:57:6:fp_enroll	1
+../Core/Src/my_fingerprintAS608.c:63:13:merge_finger	2
+../Core/Src/my_fingerprintAS608.c:71:13:get_finger	4
+../Core/Src/my_fingerprintAS608.c:186:13:check_respone_search	6
+../Core/Src/my_fingerprintAS608.c:211:13:check_respone	6
+../Core/Src/my_fingerprintAS608.c:233:13:build_ins	2
+../Core/Src/my_fingerprintAS608.c:249:13:send_ins	2
+../Core/Src/my_fingerprintAS608.c:255:6:fp_receive_data	3

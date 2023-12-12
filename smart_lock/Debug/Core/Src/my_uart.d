@@ -25,7 +25,8 @@ Core/Src/my_uart.o: ../Core/Src/my_uart.c ../Core/Inc/my_uart.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
- ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
+ ../Core/Inc/my_fingerprintAS608.h ../Core/Inc/my_uart.h
 ../Core/Inc/my_uart.h:
 ../Core/Inc/my_password.h:
 ../Core/Inc/my_define.h:
@@ -55,3 +56,5 @@ Core/Src/my_uart.o: ../Core/Src/my_uart.c ../Core/Inc/my_uart.h \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
+../Core/Inc/my_fingerprintAS608.h:
+../Core/Inc/my_uart.h:

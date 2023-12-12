@@ -10,6 +10,10 @@
 #include"stm32f1xx_hal.h"
 #include <string.h>
 #include<stdio.h>
+#include <stdlib.h>
+
+//#define TESTING
+//#define TEST_FINGERPRINT
 #define DEBUG_LED_PORT 	GPIOC
 #define DEBUG_LED_PIN 	GPIO_PIN_13
 
@@ -21,10 +25,10 @@
 #define BUTTON_PIN		GPIO_PIN_4
 
 #define BUZZER_PORT		GPIOB
-#define BUZZER_PIN		GPIO_PIN_10
+#define BUZZER_PIN		GPIO_PIN_12
 
 #define LOCK_PORT		GPIOB
-#define LOCK_PIN		GPIO_PIN_11
+#define LOCK_PIN		GPIO_PIN_13
 
 typedef uint8_t bool;
 

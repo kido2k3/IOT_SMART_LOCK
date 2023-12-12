@@ -28,8 +28,9 @@ Core/Src/my_system.o: ../Core/Src/my_system.c ../Core/Inc/my_system.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
  ../Core/Inc/my_lcd.h ../Core/Inc/my_password.h ../Core/Inc/my_buzzer.h \
- ../Core/Inc/my_scheduler.h ../Core/Inc/my_sensor.h ../Core/Inc/my_uart.h \
- ../Core/Inc/my_lock.h
+ ../Core/Inc/my_scheduler.h ../Core/Inc/my_keypadTTP229.h \
+ ../Core/Inc/my_sensor.h ../Core/Inc/my_uart.h \
+ ../Core/Inc/my_fingerprintAS608.h ../Core/Inc/my_lock.h
 ../Core/Inc/my_system.h:
 ../Core/Inc/my_fsm.h:
 ../Core/Inc/my_keypadTTP229.h:
@@ -64,6 +65,8 @@ Core/Src/my_system.o: ../Core/Src/my_system.c ../Core/Inc/my_system.h \
 ../Core/Inc/my_password.h:
 ../Core/Inc/my_buzzer.h:
 ../Core/Inc/my_scheduler.h:
+../Core/Inc/my_keypadTTP229.h:
 ../Core/Inc/my_sensor.h:
 ../Core/Inc/my_uart.h:
+../Core/Inc/my_fingerprintAS608.h:
 ../Core/Inc/my_lock.h:

@@ -41,14 +41,11 @@
 
 extern I2C_HandleTypeDef hi2c1;
 
-uint8_t dpFunction;
-uint8_t dpControl;
-uint8_t dpMode;
-uint8_t dpRows;
-uint8_t dpBacklight;
-
-uint8_t idx = 0;
-uint8_t line = 1;
+static uint8_t dpFunction;
+static uint8_t dpControl;
+static uint8_t dpMode;
+static uint8_t dpRows;
+static uint8_t dpBacklight;
 
 void SendCommand(uint8_t);
 void SendChar(uint8_t);
