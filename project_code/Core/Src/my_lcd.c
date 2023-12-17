@@ -130,7 +130,6 @@ void LCD_Init() {
 
 void LCD_Clear() {
 	SendCommand(LCD_CLEARDISPLAY);
-	DelayUS(2000);
 }
 
 void LCD_Home() {

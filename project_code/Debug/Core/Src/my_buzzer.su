@@ -1,0 +1,3 @@
+../Core/Src/my_buzzer.c:14:6:bz_alarm	8	static
+../Core/Src/my_buzzer.c:19:13:bz_on	8	static
+../Core/Src/my_buzzer.c:23:13:bz_off	8	static

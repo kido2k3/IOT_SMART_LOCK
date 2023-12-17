@@ -6,8 +6,8 @@
  */
 #include "my_password.h"
 
-char password[LENGTH_OF_PASS + 1] = "74664";
-char change_pass[LENGTH_OF_PASS + 1] = "74664";
+char password[LENGTH_OF_PASS + 1] = "11111";
+char change_pass[LENGTH_OF_PASS + 1] = "11111";
 char password_buf[17] = "";
 
 uint8_t pw_idx = 0;

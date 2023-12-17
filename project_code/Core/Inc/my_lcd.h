@@ -22,4 +22,5 @@ void lcd_displayPW_change(void);
 void lcd_displaySuccess(void);
 void lcd_displayNormal(void);
 void DelayUS(uint32_t us);
+void DelayInit(void);
 #endif /* INC_MY_LCD_H_ */

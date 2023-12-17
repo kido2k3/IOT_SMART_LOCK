@@ -18,6 +18,6 @@
 void sch_update(void);
 void sch_init(void);
 bool sch_dispatch(void);
-bool sch_add_task(void (*pTask)(), uint16_t delay, uint16_t period);
+bool sch_add_task(void (*pTask)(), uint32_t delay, uint32_t period);
 void sch_remove_task(void (*pTask)());
 #endif /* INC_MY_SCHEDULER_H_ */

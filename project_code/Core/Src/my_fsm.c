@@ -6,9 +6,18 @@
  */
 
 #include "my_fsm.h"
-
 enum {
-	INIT, SLEEP, PASSWORD, WRONG, UNLOCK, CHANGE_PASS
+	release, pressed, long_pressed
+} st_button;
+enum {
+	INIT,
+	SLEEP,
+	PASSWORD,
+	WRONG,
+	UNLOCK,
+	CHANGE_PASS,
+	GET_FINGER,
+	ENROLL_NEW_FINGER
 } st_lock;
 
 uint8_t cal(uint8_t button_id) {
@@ -22,10 +31,11 @@ static void reset_timer(void);
 static void run_timer(void);
 static bool time_out(void);
 static void fsm_keypad(void);
+static bool fsm_button(void);
 
-#define TIMER		15 //15s, 5s for testing
-#define BLOCK_TIME	5//30s to block keypad and fingerprint
-#define UNLOCK_TIME	10
+#define TIMER		3 //15s, 5s for testing
+#define BLOCK_TIME	10//10s to block keypad and fingerprint
+#define UNLOCK_TIME	5
 
 uint16_t timer_for_st = TIMER;
 // rise if there was wrong input, if count > 3 block input for 30s
@@ -34,7 +44,8 @@ uint8_t wrong_input_cnt = 0;
 bool wrong_input_flag = 0;
 // flag for refill pass. 0: nothing, 1: refill password
 bool change_pass_flag = 0;
-
+// flag for enroll new finger. 0: nothing, 1: refill password
+bool enroll_finger_flag = 0;
 void fsm_lock(void) {
 	switch (st_lock) {
 	case INIT:
@@ -42,6 +53,7 @@ void fsm_lock(void) {
 	case SLEEP:
 		lock_close();
 		fsm_keypad();
+		fsm_button();
 		break;
 	case PASSWORD:
 		// if over 15s not do anything, return to sleep
@@ -60,11 +72,13 @@ void fsm_lock(void) {
 	case WRONG:
 		//
 		if (wrong_input_cnt > 3) {
+			sch_add_task(bz_alarm, 0, ONE_SECOND * 3);
 			wrong_input_flag = 1;
 			timer_for_st = BLOCK_TIME;
 			wrong_input_cnt = 0;
 		}
 		if (time_out()) {
+			sch_remove_task(bz_alarm);
 			switch_lock_to_sleep();
 		}
 		break;
@@ -73,10 +87,60 @@ void fsm_lock(void) {
 		if (time_out()) {
 			switch_lock_to_sleep();
 		}
+		fsm_button();
+		break;
+	case GET_FINGER:
+		if (fp_search()) {
+			sch_add_task(run_timer, 0, ONE_SECOND);
+			switch_lock_to_unlock();
+		} else {
+			LCD_display("  INVALID FINGER", "");
+			switch_lock_to_sleep();
+		}
+		sch_remove_task(fp_run_timer);
+		break;
+	case ENROLL_NEW_FINGER:
+		if (fp_enroll()) {
+			LCD_display("SUCCESFULLY", "");
+		} else {
+			LCD_display("  STH WENT", "   WRONG");
+		}
+		sch_remove_task(fp_run_timer);
+		switch_lock_to_sleep();
 		break;
 	}
 }
-
+static bool fsm_button(void) {
+	switch (st_button) {
+	case release:
+		if (is_button_pressed(0) == 1) {
+			//todo
+			switch (st_lock) {
+			case SLEEP:
+				sch_add_task(run_timer, 0, ONE_SECOND);
+				switch_lock_to_unlock();
+				break;
+			case UNLOCK:
+				timer_for_st = UNLOCK_TIME;
+				break;
+			default:
+				break;
+			}
+		} else if (is_button_pressed(0) == ERROR)
+			return 0;
+		break;
+	case pressed:
+		if (!is_button_pressed(0)) {
+			st_button = release;
+		} else {
+			return 0;
+		}
+		break;
+	default:
+		return 0;
+	}
+	return 1;
+}
 static void fsm_keypad(void) {
 	uint8_t key_id = keypad_IsPressed();
 	switch (key_id) {
@@ -140,7 +204,16 @@ static void fsm_keypad(void) {
 		}
 		break;
 	case 3:
-
+		switch (st_lock) {
+		case SLEEP:
+			reset_timer();
+			LCD_display("FILL PASS", "");
+			sch_add_task(run_timer, 0, ONE_SECOND);
+			enroll_finger_flag = 1;
+			st_lock = PASSWORD;
+			break;
+		default:
+		}
 		break;
 	case 7:
 		break;
@@ -159,6 +232,15 @@ static void fsm_keypad(void) {
 		break;
 
 	case 12:
+		switch (st_lock) {
+		case SLEEP:
+			reset_timer();
+			LCD_display("INSERT YOUR", "FINGER");
+			sch_add_task(fp_run_timer, 0, ONE_SECOND / 10);
+			st_lock = GET_FINGER;
+		default:
+		}
+
 		break;
 
 	case 14:
@@ -172,6 +254,13 @@ static void fsm_keypad(void) {
 					LCD_display("FILL NEW PASS", "");
 					pw_ResetIdx();
 					st_lock = CHANGE_PASS;
+				} else if (enroll_finger_flag) {
+					sch_remove_task(run_timer);
+					sch_add_task(fp_run_timer, 0, ONE_SECOND / 10);
+					LCD_display("   INSERT NEW", "    FINGER");
+					pw_ResetIdx();
+					enroll_finger_flag = 0;
+					st_lock = ENROLL_NEW_FINGER;
 				} else
 					switch_lock_to_unlock();
 			}
@@ -232,17 +321,16 @@ static void reset_timer(void) {
 	timer_for_st = TIMER;
 }
 static void run_timer(void) {
+	if (timer_for_st > 0) {
+		timer_for_st--;
+	}
 	if (wrong_input_flag == 1) {
 		char str[17];
 		sprintf(str, "REMAIN %ds", timer_for_st);
 		LCD_display("BLOCK INPUT", str);
 	}
-	if (timer_for_st > 0) {
-		timer_for_st--;
-	}
 }
 static bool time_out(void) {
-
 	if (timer_for_st == 0) {
 		if (wrong_input_flag == 1 && st_lock == WRONG) {
 			wrong_input_flag = 0;

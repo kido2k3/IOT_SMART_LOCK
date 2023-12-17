@@ -68,7 +68,7 @@ bool fp_search(void) {
 }
 bool fp_enroll(void) {
 	fp_reset_timer();
-	get_finger(5);
+	get_finger(2);
 	if (merge_finger()) {
 		if (store_finger()) {
 			return 1;
@@ -121,7 +121,8 @@ static void get_finger(uint8_t time) {
 			build_ins(INS_GET_IMAGE, 0, 0);
 			send_ins();
 			if (check_respone()) {
-				build_ins(INS_GEN_CHAR, 1, &i);
+				uint8_t data = i + 1;
+				build_ins(INS_GEN_CHAR, 1, &data);
 				send_ins();
 				if (check_respone()) {
 					break;
@@ -215,74 +216,24 @@ void fp_receive_data(uint8_t data) {
 #ifdef TEST_FINGERPRINT
 extern UART_HandleTypeDef huart2;
 char str[30];
-void get_finger1(void) {
-	while (1) {
-		build_ins(INS_GET_IMAGE, 0, 0);
-		send_ins();
-		if (check_respone()) {
-			//HAL_Delay(100);
-			uint8_t data[1] = { 0x01 };
-			build_ins(INS_GEN_CHAR, 1, data);
-			send_ins();
-			if (check_respone()) {
-				uint16_t len = sprintf((void*) str, "finish get_fig 1\n");
-				HAL_UART_Transmit(&huart2, (void*) str, len, 100);
-				break;
-			}
-		}
-	}
-}
-void get_finger2(void) {
-	while (1) {
-		build_ins(INS_GET_IMAGE, 0, 0);
-		send_ins();
-		if (check_respone()) {
-			//HAL_Delay(100);
-			uint8_t data[1] = { 0x02 };
-			build_ins(INS_GEN_CHAR, 1, data);
-			send_ins();
-			if (check_respone()) {
-				uint16_t len = sprintf((void*) str, "finish get_fig 2\n");
-				HAL_UART_Transmit(&huart2, (void*) str, len, 100);
-				break;
-			}
-		}
-	}
-}
-
 
 void fp_test(void) {
-	uint16_t len = sprintf((void*) str, "lay van tay lan 1\n");
+	uint16_t len = sprintf((void*) str, "lay van tay\n");
 	HAL_UART_Transmit(&huart2, (void*) str, len, 100);
-	get_finger1();
-	len = sprintf((void*) str, "lay van tay lan 2\n");
+	get_finger(5);
+	len = sprintf((void*) str, "xong lay van tay\n");
 	HAL_UART_Transmit(&huart2, (void*) str, len, 100);
-	get_finger2();
 	if (merge_finger()) {
 		len = sprintf((void*) str, "van tay chuan\n");
 		HAL_UART_Transmit(&huart2, (void*) str, len, 100);
-//		if (store_finger()) {
-//			len = sprintf((void*) str, "da luu\n");
+//		if (search_finger()) {
+//			len = sprintf((void*) str, "page id: %d; score: %d\n", page_id,
+//					score);
+//			HAL_UART_Transmit(&huart2, (void*) str, len, 100);
+//		} else {
+//			len = sprintf((void*) str, "cut, \n");
 //			HAL_UART_Transmit(&huart2, (void*) str, len, 100);
 //		}
-		if (search_finger()) {
-			len = sprintf((void*) str, "page id: %d; score: %d\n", page_id,
-					score);
-			HAL_UART_Transmit(&huart2, (void*) str, len, 100);
-		}
-	}
-	HAL_Delay(10);
-}
-void fp_test2(void) {
-	uint16_t len = sprintf((void*) str, "lay van tay lan 1\n");
-	HAL_UART_Transmit(&huart2, (void*) str, len, 100);
-	get_finger1();
-	len = sprintf((void*) str, "lay van tay lan 2\n");
-	HAL_UART_Transmit(&huart2, (void*) str, len, 100);
-	get_finger2();
-	if (merge_finger()) {
-		len = sprintf((void*) str, "van tay chuan\n");
-		HAL_UART_Transmit(&huart2, (void*) str, len, 100);
 		if (store_finger()) {
 			len = sprintf((void*) str, "da luu\n");
 			HAL_UART_Transmit(&huart2, (void*) str, len, 100);

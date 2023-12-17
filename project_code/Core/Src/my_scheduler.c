@@ -7,7 +7,7 @@
 
 #include "my_scheduler.h"
 
-#define FREQ_OF_TIM 1000 //1kHz
+#define FREQ_OF_TIM 10000 //1MHz
 /*
  @brief: pTask - pointer pointing to the function that will run
  counter - the amount of remaining time or the time after the previous task
@@ -16,8 +16,8 @@
  */
 struct task {
 	void (*pTask)();
-	uint16_t counter;
-	uint16_t period;
+	uint32_t counter;
+	uint32_t period;
 	struct task *next_task;
 };
 /*
@@ -45,7 +45,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
  * @retval:	1 - add successfully
  * 			0 - add badly
  * */
-bool sch_add_task(void (*pTask)(), uint16_t delay, uint16_t period) {
+bool sch_add_task(void (*pTask)(), uint32_t delay, uint32_t period) {
 	struct task *my_task = (struct task*) malloc(sizeof(struct task));
 	my_task->pTask = pTask;
 	my_task->counter = delay * FREQ_OF_TIM / 1000;
@@ -89,8 +89,10 @@ bool sch_add_task(void (*pTask)(), uint16_t delay, uint16_t period) {
  * @retval:	none
  * */
 void sch_update(void) {
-	if (stack_task.top == 0)
+
+	if (stack_task.top == 0){
 		return;
+	}
 	if (stack_task.top->counter > 0) {
 		stack_task.top->counter--;
 	}
