@@ -3,6 +3,8 @@
 ../Core/Src/my_esp32.c:29:6:esp32_get_flag	1
 ../Core/Src/my_esp32.c:32:6:esp32_reset_flag	1
 ../Core/Src/my_esp32.c:35:6:esp32_send_lock	2
-../Core/Src/my_esp32.c:47:6:esp32_send_people	1
-../Core/Src/my_esp32.c:52:6:esp32_send_fingerID	1
-../Core/Src/my_esp32.c:57:6:esp32_send_sleep	1
+../Core/Src/my_esp32.c:46:6:esp32_led_on	1
+../Core/Src/my_esp32.c:51:6:esp32_led_off	1
+../Core/Src/my_esp32.c:56:6:esp32_send_people	1
+../Core/Src/my_esp32.c:61:6:esp32_send_fingerID	1
+../Core/Src/my_esp32.c:66:6:esp32_send_sleep	1
