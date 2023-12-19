@@ -18,6 +18,7 @@
 #include "my_lock.h"
 #include "my_fingerprintAS608.h"
 #include "my_button.h"
+#include "my_esp32.h"
 void fsm_lock(void);
 
 #endif /* INC_MY_FSM_H_ */

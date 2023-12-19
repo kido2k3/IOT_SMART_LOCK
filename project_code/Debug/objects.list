@@ -1,6 +1,7 @@
 "./Core/Src/main.o"
 "./Core/Src/my_button.o"
 "./Core/Src/my_buzzer.o"
+"./Core/Src/my_esp32.o"
 "./Core/Src/my_fingerprintAS608.o"
 "./Core/Src/my_fsm.o"
 "./Core/Src/my_keypadTTP229.o"

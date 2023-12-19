@@ -18,4 +18,5 @@ void fp_receive_data(uint8_t data);
 void fp_run_timer(void);
 bool fp_enroll(void);
 bool fp_search(void);
+uint16_t fg_get_id(void);
 #endif /* INC_MY_FINGERPRINTAS608_H_ */

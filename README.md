@@ -1,5 +1,11 @@
 # IOT_SMART_LOCK
 This repository for the project in HCMUT
+
+Please contact me if you have any advice about code style, file organization, code mistakes, how to optimize the project, etc.
+
+My email is phong.to2k3@hcmut.edu.vn
+
+Your advice is my appreciation
 # Main functions
 -  Opening by either the user's fingerprint or the input password.
 -  Having CCTV camera in front of door.
@@ -11,8 +17,3 @@ This repository for the project in HCMUT
    -  Configuring the input password
    -  Adding more fingerprint
    -  Opening remotely via Internet.
-# Reference
--  Debouncing button
-   +  http://www.ganssle.com/debouncing-pt2.htm
-   +  https://www.instructables.com/STM32CubeMX-Button-Debounce-With-Interrupt/
-   +  https://www.youtube.com/watch?v=hFnGF3qVnF4&t=465s&ab_channel=chipfc

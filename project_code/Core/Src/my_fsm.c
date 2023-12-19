@@ -29,9 +29,13 @@ static void switch_lock_to_sleep(void);
 static void switch_lock_to_wrong(void);
 static void reset_timer(void);
 static void run_timer(void);
+static void run_timer_sleep(void);
 static bool time_out(void);
 static void fsm_keypad(void);
 static bool fsm_button(void);
+static void check_esp32(void);
+static void rm_timer_sleep(void);
+static void led_alarm(void);
 
 #define TIMER		3 //15s, 5s for testing
 #define BLOCK_TIME	10//10s to block keypad and fingerprint
@@ -46,6 +50,9 @@ bool wrong_input_flag = 0;
 bool change_pass_flag = 0;
 // flag for enroll new finger. 0: nothing, 1: refill password
 bool enroll_finger_flag = 0;
+// sleep count
+uint32_t sleep_preiod = 0;
+
 void fsm_lock(void) {
 	switch (st_lock) {
 	case INIT:
@@ -54,6 +61,7 @@ void fsm_lock(void) {
 		lock_close();
 		fsm_keypad();
 		fsm_button();
+		check_esp32();
 		break;
 	case PASSWORD:
 		// if over 15s not do anything, return to sleep
@@ -73,24 +81,28 @@ void fsm_lock(void) {
 		//
 		if (wrong_input_cnt > 3) {
 			sch_add_task(bz_alarm, 0, ONE_SECOND * 3);
+			sch_add_task(led_alarm, 0, ONE_SECOND*3);
 			wrong_input_flag = 1;
 			timer_for_st = BLOCK_TIME;
 			wrong_input_cnt = 0;
 		}
 		if (time_out()) {
 			sch_remove_task(bz_alarm);
+			sch_remove_task(led_alarm);
 			switch_lock_to_sleep();
 		}
 		break;
 	case UNLOCK:
 		lock_open();
 		if (time_out()) {
+			esp32_send_lock(1);
 			switch_lock_to_sleep();
 		}
 		fsm_button();
 		break;
 	case GET_FINGER:
 		if (fp_search()) {
+			esp32_send_fingerID(fg_get_id());
 			sch_add_task(run_timer, 0, ONE_SECOND);
 			switch_lock_to_unlock();
 		} else {
@@ -117,6 +129,7 @@ static bool fsm_button(void) {
 			//todo
 			switch (st_lock) {
 			case SLEEP:
+				rm_timer_sleep();
 				sch_add_task(run_timer, 0, ONE_SECOND);
 				switch_lock_to_unlock();
 				break;
@@ -163,6 +176,7 @@ static void fsm_keypad(void) {
 				number = cal(key_id);
 			}
 			if (pw_update(number)) {
+				rm_timer_sleep();
 				switch_lock_to_password();
 			}
 			break;
@@ -206,6 +220,7 @@ static void fsm_keypad(void) {
 	case 3:
 		switch (st_lock) {
 		case SLEEP:
+			rm_timer_sleep();
 			reset_timer();
 			LCD_display("FILL PASS", "");
 			sch_add_task(run_timer, 0, ONE_SECOND);
@@ -221,6 +236,7 @@ static void fsm_keypad(void) {
 	case 11:
 		switch (st_lock) {
 		case SLEEP:
+			rm_timer_sleep();
 			reset_timer();
 			LCD_display("FILL OLD PASS", "");
 			sch_add_task(run_timer, 0, ONE_SECOND);
@@ -234,6 +250,7 @@ static void fsm_keypad(void) {
 	case 12:
 		switch (st_lock) {
 		case SLEEP:
+			rm_timer_sleep();
 			reset_timer();
 			LCD_display("INSERT YOUR", "FINGER");
 			sch_add_task(fp_run_timer, 0, ONE_SECOND / 10);
@@ -298,6 +315,7 @@ static void switch_lock_to_unlock(void) {
 	LCD_display("    UNLOCK DOOR", "");
 	timer_for_st = UNLOCK_TIME;
 	wrong_input_cnt = 0;
+	esp32_send_lock(0);
 	st_lock = UNLOCK;
 }
 static void switch_lock_to_wrong(void) {
@@ -313,6 +331,7 @@ static void switch_lock_to_password(void) {
 	st_lock = PASSWORD;
 }
 static void switch_lock_to_sleep(void) {
+	run_timer_sleep();
 	pw_ResetIdx();
 	LCD_display("    WELCOME TO", "     MY ROOM");
 	st_lock = SLEEP;
@@ -329,6 +348,29 @@ static void run_timer(void) {
 		sprintf(str, "REMAIN %ds", timer_for_st);
 		LCD_display("BLOCK INPUT", str);
 	}
+}
+static void subfun_run_timer_sleep(void) {
+	sleep_preiod++;
+}
+static void run_timer_sleep(void) {
+	sleep_preiod = 0;
+	sch_add_task(subfun_run_timer_sleep, 0, ONE_SECOND);
+}
+static void rm_timer_sleep(void) {
+	sch_remove_task(subfun_run_timer_sleep);
+	esp32_send_sleep(sleep_preiod);
+}
+static void check_esp32(void) {
+	if (esp32_get_flag()) {
+		rm_timer_sleep();
+		sch_add_task(run_timer, 0, ONE_SECOND);
+		switch_lock_to_unlock();
+		esp32_reset_flag();
+	}
+}
+static void led_alarm(void) {
+	sch_add_task(esp32_led_on, 0, 0);
+	sch_add_task(esp32_led_off, ONE_SECOND, 0);
 }
 static bool time_out(void) {
 	if (timer_for_st == 0) {

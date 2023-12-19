@@ -56,6 +56,9 @@ void fp_init(void) {
 	uart_fp_init();
 }
 
+uint16_t fg_get_id(void){
+	return page_id;
+}
 bool fp_search(void) {
 	fp_reset_timer();
 	get_finger(2);

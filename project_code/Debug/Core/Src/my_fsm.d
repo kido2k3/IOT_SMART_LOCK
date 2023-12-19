@@ -30,7 +30,7 @@ Core/Src/my_fsm.o: ../Core/Src/my_fsm.c ../Core/Inc/my_fsm.h \
  ../Core/Inc/my_keypadTTP229.h ../Core/Inc/my_buzzer.h \
  ../Core/Inc/my_scheduler.h ../Core/Inc/my_keypadTTP229.h \
  ../Core/Inc/my_uart.h ../Core/Inc/my_fingerprintAS608.h \
- ../Core/Inc/my_lock.h ../Core/Inc/my_button.h
+ ../Core/Inc/my_esp32.h ../Core/Inc/my_lock.h ../Core/Inc/my_button.h
 ../Core/Inc/my_fsm.h:
 ../Core/Inc/my_sensorHCSR04.h:
 ../Core/Inc/my_define.h:
@@ -68,5 +68,6 @@ Core/Src/my_fsm.o: ../Core/Src/my_fsm.c ../Core/Inc/my_fsm.h \
 ../Core/Inc/my_keypadTTP229.h:
 ../Core/Inc/my_uart.h:
 ../Core/Inc/my_fingerprintAS608.h:
+../Core/Inc/my_esp32.h:
 ../Core/Inc/my_lock.h:
 ../Core/Inc/my_button.h:

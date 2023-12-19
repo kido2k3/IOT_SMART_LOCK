@@ -40,11 +40,6 @@ static void test_lock(void) {
 #endif
 
 
-
-
-extern UART_HandleTypeDef huart2;
-
-
 void init(void) {
 	sch_init();
 	LCD_Init();
@@ -53,6 +48,7 @@ void init(void) {
 	button_init();
 	fp_init();
 	hcsr04_init();
+	esp32_init();
 	sch_add_task(hcsr04_read, 0, 130);
 	sch_add_task(button_read, 0, 50);
 	sch_add_task(keypad_read, 0, 75);

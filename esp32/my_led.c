@@ -2,6 +2,10 @@
 
 #include "my_led.h"
 
+void led_init(void){
+  pinMode(DEBUG_LED, OUTPUT);
+  pinMode(FLASH_LED, OUTPUT);
+}
 void led_on(void)
 {
     digitalWrite(DEBUG_LED, 0);
