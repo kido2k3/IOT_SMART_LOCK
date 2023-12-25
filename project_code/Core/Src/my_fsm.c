@@ -19,8 +19,11 @@ enum {
 	GET_FINGER,
 	ENROLL_NEW_FINGER
 } st_lock;
+enum {
+	START, HANDLE_DATA, CALCULATE
+} st_sensor;
 
-uint8_t cal(uint8_t button_id) {
+static uint8_t cal(uint8_t button_id) {
 	return button_id / 4 + button_id % 4 + button_id / 4 * 2 + 1;
 }
 static void switch_lock_to_unlock(void);
@@ -41,25 +44,53 @@ static void led_alarm(void);
 #define BLOCK_TIME	10//10s to block keypad and fingerprint
 #define UNLOCK_TIME	5
 
-uint16_t timer_for_st = TIMER;
+static uint16_t timer_for_st = TIMER;
 // rise if there was wrong input, if count > 3 block input for 30s
-uint8_t wrong_input_cnt = 0;
+static uint8_t wrong_input_cnt = 0;
 //
-bool wrong_input_flag = 0;
+static bool wrong_input_flag = 0;
 // flag for refill pass. 0: nothing, 1: refill password
-bool change_pass_flag = 0;
+static bool change_pass_flag = 0;
 // flag for enroll new finger. 0: nothing, 1: refill password
-bool enroll_finger_flag = 0;
+static bool enroll_finger_flag = 0;
 // sleep count
-uint32_t sleep_preiod = 0;
+static uint32_t sleep_preiod = 0;
+// sensor index 1 or 2
+static uint8_t ss_idx;
+//NUMBER OF PEOPLE
+static uint8_t num_of_people = 0;
+//is_person_going_out
+bool is_person_going_out = 2;
+uint32_t kc, kc2;
 
+extern UART_HandleTypeDef huart2;
+static char str[30];
+void print_people(void) {
+	uint16_t len = sprintf((void*) str, "people: %d\n", num_of_people);
+	HAL_UART_Transmit(&huart2, (void*) str, len, 100);
+}
+void send_people(void){
+	esp32_send_people(num_of_people);
+}
 void fsm_lock(void) {
 	switch (st_lock) {
 	case INIT:
+		sch_add_task(print_people, 0, ONE_SECOND);
+		sch_add_task(send_people,0,ONE_SECOND*15);
 		switch_lock_to_sleep();
 	case SLEEP:
 		lock_close();
 		fsm_keypad();
+		// keypad_error
+//		if (keypad_IsPressed() != UNPRESSED) {
+//			uint8_t key_id = keypad_IsPressed();
+//			rm_timer_sleep();
+//			reset_timer();
+//			LCD_display("INSERT NEW", "FINGER");
+//			sch_add_task(fp_run_timer, 0, ONE_SECOND / 10);
+//			st_lock = ENROLL_NEW_FINGER;
+//			keypad_ResetFlag(key_id);
+//	}
 		fsm_button();
 		check_esp32();
 		break;
@@ -81,7 +112,7 @@ void fsm_lock(void) {
 		//
 		if (wrong_input_cnt > 3) {
 			sch_add_task(bz_alarm, 0, ONE_SECOND * 3);
-			sch_add_task(led_alarm, 0, ONE_SECOND*3);
+			sch_add_task(led_alarm, 0, ONE_SECOND * 3);
 			wrong_input_flag = 1;
 			timer_for_st = BLOCK_TIME;
 			wrong_input_cnt = 0;
@@ -98,6 +129,7 @@ void fsm_lock(void) {
 			esp32_send_lock(1);
 			switch_lock_to_sleep();
 		}
+		check_esp32();
 		fsm_button();
 		break;
 	case GET_FINGER:
@@ -120,6 +152,76 @@ void fsm_lock(void) {
 		sch_remove_task(fp_run_timer);
 		switch_lock_to_sleep();
 		break;
+	}
+}
+
+void fsm_sensor(void) {
+	switch (st_sensor) {
+	case START:
+		if (hcsr04_get_flag()) {
+
+			hcsr04_get_data(&kc, &kc2);
+			if (kc <= MAX_DISTANCE || kc2 <= MAX_DISTANCE) {
+				uint32_t min = (kc < kc2) ? kc : kc2;
+				if (min <= MAX_DISTANCE && min == kc) {
+					ss_idx = 1;
+					st_sensor = HANDLE_DATA;
+				} else {
+					ss_idx = 2;
+					st_sensor = HANDLE_DATA;
+				}
+			}
+		}
+		break;
+	case HANDLE_DATA:
+		if (hcsr04_get_flag()) {
+			hcsr04_get_data(&kc, &kc2);
+			if (!(kc <= MAX_DISTANCE || kc2 <= MAX_DISTANCE)) {
+				st_sensor = START;
+				return;
+			}
+			if (ss_idx == 1) {
+				if (kc <= MAX_DISTANCE) {
+					return;
+				} else {
+					is_person_going_out = 0;
+					st_sensor = CALCULATE;
+				}
+
+			} else if (ss_idx == 2) {
+				if (kc2 <= MAX_DISTANCE) {
+					return;
+				} else {
+					is_person_going_out = 1;
+					st_sensor = CALCULATE;
+				}
+			}
+		}
+		break;
+	case CALCULATE:
+		if (hcsr04_get_flag()) {
+			hcsr04_get_data(&kc, &kc2);
+			if (!(kc <= MAX_DISTANCE || kc2 <= MAX_DISTANCE)) {
+				switch (is_person_going_out) {
+				case 1:
+					if (num_of_people > 0) {
+						num_of_people--;
+					}
+					break;
+				case 0:
+					num_of_people++;
+					break;
+				default:
+					break;
+				}
+				is_person_going_out = 2;
+				st_sensor = START;
+				return;
+			}
+			break;
+			default:
+			break;
+		}
 	}
 }
 static bool fsm_button(void) {
@@ -362,6 +464,10 @@ static void rm_timer_sleep(void) {
 }
 static void check_esp32(void) {
 	if (esp32_get_flag()) {
+		if (st_lock == UNLOCK) {
+			esp32_reset_flag();
+			return;
+		}
 		rm_timer_sleep();
 		sch_add_task(run_timer, 0, ONE_SECOND);
 		switch_lock_to_unlock();

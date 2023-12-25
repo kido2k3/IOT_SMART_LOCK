@@ -18,24 +18,54 @@ uint32_t IC_Val22 = 0;
 uint32_t Difference2 = 0;
 uint8_t Is_First_Captured2 = 0;  // is the first value captured ?
 uint32_t Distance2 = 0;
+bool hcsr04_flag = 0;
+bool hcsr04_flag2 = 0;
+
+#define BUFFER_SIZE	7
+uint32_t buffer[BUFFER_SIZE];
+uint8_t buf_idx = 0;
+
+
+
+
 extern TIM_HandleTypeDef htim1;
+extern UART_HandleTypeDef huart2;
 
 void hcsr04_init(void) {
 	HAL_TIM_IC_Start_IT(&htim1, TIM_CHANNEL_1);
 	HAL_TIM_IC_Start_IT(&htim1, TIM_CHANNEL_4);
 }
-
+char str[30];
 void hcsr04_read(void) {
 	HAL_GPIO_WritePin(SOUND_SS_PORT, SOUND_SS_TRI1_PIN, GPIO_PIN_SET); // pull the TRIG pin HIGH
 	HAL_GPIO_WritePin(SOUND_SS_PORT, SOUND_SS_TRI2_PIN, GPIO_PIN_SET); // pull the TRIG pin HIGH
 	DelayUS(10);  // wait for 10 us
 	HAL_GPIO_WritePin(SOUND_SS_PORT, SOUND_SS_TRI1_PIN, 0); // pull the TRIG pin low
-	HAL_GPIO_WritePin(SOUND_SS_PORT, SOUND_SS_TRI2_PIN, 0); // pull the TRIG pin HIGH
+	HAL_GPIO_WritePin(SOUND_SS_PORT, SOUND_SS_TRI2_PIN, 0); // pull the TRIG pin low
 
 	__HAL_TIM_ENABLE_IT(&htim1, TIM_IT_CC1);
 	__HAL_TIM_ENABLE_IT(&htim1, TIM_IT_CC4);
 }
-
+void hcsr04_get_data(uint32_t *kc, uint32_t *kc2){
+	*kc = Distance;
+	*kc2 = Distance2;
+}
+bool hcsr04_get_flag(void) {
+	if (hcsr04_flag && hcsr04_flag2) {
+		hcsr04_flag = 0;
+		hcsr04_flag2 = 0;
+		return 1;
+	}
+//	if (hcsr04_flag) {
+//		hcsr04_flag = 0;
+//		return 0;
+//	}
+//	if (hcsr04_flag2) {
+//		hcsr04_flag2 = 0;
+//		return 0;
+//	}
+	return 0;
+}
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 	if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1) // if the interrupt source is channel1
 			{
@@ -63,7 +93,11 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 
 			Distance = Difference * .034 / 2;
 			Is_First_Captured = 0; // set it back to false
+			hcsr04_flag = 1;
 
+			uint16_t len = sprintf((void*) str, "Distance1: %d\n",
+					(uint16_t) Distance);
+			HAL_UART_Transmit(&huart2, (void*) str, len, 100);
 			// set polarity to rising edge
 			__HAL_TIM_SET_CAPTUREPOLARITY(htim, TIM_CHANNEL_1,
 					TIM_INPUTCHANNELPOLARITY_RISING);
@@ -95,7 +129,10 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 
 			Distance2 = Difference2 * .034 / 2;
 			Is_First_Captured2 = 0; // set it back to false
-
+			uint16_t len = sprintf((void*) str, "Distance2: %d\n",
+					(uint16_t) Distance2);
+			HAL_UART_Transmit(&huart2, (void*) str, len, 100);
+			hcsr04_flag2 = 1;
 			// set polarity to rising edge
 			__HAL_TIM_SET_CAPTUREPOLARITY(htim, TIM_CHANNEL_4,
 					TIM_INPUTCHANNELPOLARITY_RISING);

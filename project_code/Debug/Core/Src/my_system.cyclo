@@ -1,3 +1,3 @@
 ../Core/Src/my_system.c:10:13:toggle_led	1
-../Core/Src/my_system.c:43:6:init	1
-../Core/Src/my_system.c:60:6:loop	1
+../Core/Src/my_system.c:50:6:init	1
+../Core/Src/my_system.c:68:6:loop	1

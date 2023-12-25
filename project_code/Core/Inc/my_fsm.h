@@ -20,5 +20,6 @@
 #include "my_button.h"
 #include "my_esp32.h"
 void fsm_lock(void);
+void fsm_sensor(void);
 
 #endif /* INC_MY_FSM_H_ */

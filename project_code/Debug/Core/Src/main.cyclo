@@ -7,4 +7,4 @@
 ../Core/Src/main.c:335:13:MX_USART2_UART_Init	2
 ../Core/Src/main.c:368:13:MX_USART3_UART_Init	2
 ../Core/Src/main.c:401:13:MX_GPIO_Init	1
-../Core/Src/main.c:467:6:Error_Handler	1
+../Core/Src/main.c:461:6:Error_Handler	1

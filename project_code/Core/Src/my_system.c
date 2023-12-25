@@ -37,8 +37,15 @@ static void test_lock(void) {
 	sch_add_task(lock_open, 0, 0);
 	sch_add_task(lock_close, 5000, 0);
 }
-#endif
 
+
+
+static void test_button(void){
+	if(is_button_pressed(0)){
+		sch_add_task(bz_alarm, 0, 0);
+	}
+}
+#endif
 
 void init(void) {
 	sch_init();
@@ -54,11 +61,11 @@ void init(void) {
 	sch_add_task(keypad_read, 0, 75);
 	sch_add_task(fsm_lock, 0, 10);
 	sch_add_task(toggle_led, 0, ONE_SECOND);
-}
+	sch_add_task(fsm_sensor, 0, 10);
 
+}
 
 void loop(void) {
 	sch_dispatch();
 }
-
 

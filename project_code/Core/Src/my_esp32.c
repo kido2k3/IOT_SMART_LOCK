@@ -9,18 +9,25 @@
 
 extern UART_HandleTypeDef huart3;
 #define LOCK_CMD	"LOCK:0#"
-#define ESP_BUF_MAX	7
+#define ESP_BUF_MAX	14
 static uint8_t esp32_buffer[ESP_BUF_MAX];
 static uint8_t esp32_idx = 0;
 static bool esp32_flag = 0;
 void esp32_init(void) {
 	uart_esp32_init();
+	esp32_send_lock(1);
 }
 
 void esp32_receive_data(uint8_t uart_data3) {
 	esp32_buffer[esp32_idx++] = uart_data3;
-	if (esp32_buffer[esp32_idx - 1] == '#') {
+	if (strstr((char*)esp32_buffer,LOCK_CMD)) {
 		esp32_flag = 1;
+		esp32_idx = 0;
+		return;
+	}
+	if(esp32_buffer[esp32_idx-1]=='#'){
+		esp32_idx = 0;
+		return;
 	}
 	if (esp32_idx >= ESP_BUF_MAX) {
 		esp32_idx = 0;

@@ -1,3 +1,5 @@
-../Core/Src/my_sensorHCSR04.c:23:6:hcsr04_init	1
-../Core/Src/my_sensorHCSR04.c:28:6:hcsr04_read	1
-../Core/Src/my_sensorHCSR04.c:39:6:HAL_TIM_IC_CaptureCallback	11
+../Core/Src/my_sensorHCSR04.c:34:6:hcsr04_init	1
+../Core/Src/my_sensorHCSR04.c:39:6:hcsr04_read	1
+../Core/Src/my_sensorHCSR04.c:49:6:hcsr04_get_data	1
+../Core/Src/my_sensorHCSR04.c:53:6:hcsr04_get_flag	3
+../Core/Src/my_sensorHCSR04.c:69:6:HAL_TIM_IC_CaptureCallback	11

@@ -35,7 +35,7 @@ void setup() {
   lock->onMessage(handleMessage);
   // wait for a connection
   while (io.status() < AIO_CONNECTED) {
-    Serial.print(".");
+    //Serial.print(".");
     delay(500);
   }
   lock->get();
@@ -56,22 +56,11 @@ void loop() {
 
   if (Serial.available()) {
     uint8_t msg = Serial.read();
-    Serial.println((char)msg);
+    //Serial.println((char)msg);
     get_data(msg);
   }
   uint32_t cmd_data;
   uint8_t cmd =  compile_cmd(&cmd_data);
-  //  portENTER_CRITICAL_ISR(&timerMux);
-  //  if (!timer_flag) {
-  //    //todo
-  //    handle_cmd( cmd,  cmd_data);
-  //
-  //    if (counter > 0) {
-  //      counter--;
-  //    }
-  //    timer_set(10);
-  //  }
-  //  portEXIT_CRITICAL_ISR(&timerMux);
   handle_cmd( cmd,  cmd_data);
   if (!counter) {
     LED_STATE = !LED_STATE;
@@ -120,9 +109,14 @@ void handle_cmd(uint8_t cmd, uint8_t cmd_data) {
       break;
   }
 }
+uint8_t pre_data = 1;
 void handleMessage(AdafruitIO_Data *data) {
-  if (data->toPinLevel() == 0) {
-    if (Serial.availableForWrite())
-      Serial.write("LOCK:0#");
+  if (pre_data != data->toPinLevel()) {
+    if (data->toPinLevel() == 0) {
+      if (Serial.availableForWrite())
+        Serial.write("LOCK:0#");
+    }
+    pre_data = data->toPinLevel();
   }
+
 }
