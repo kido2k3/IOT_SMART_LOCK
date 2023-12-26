@@ -66,7 +66,7 @@ This is IoT project that we build a Smart Lock.
 ## Feedback
 This repository for the project in HCMUT
 
-Visit my [Youtube Channel](https://www.youtube.com/watch?v=u_vqd9Ce-mY&t=19s) for more project.
+Visit my [Youtube Channel](https://www.youtube.com/watch?v=u_vqd9Ce-mY&t=19s) for more projects.
 
 Please contact me if you have any advice about code style, file organization, code mistakes, how to optimize the project, etc.
 
