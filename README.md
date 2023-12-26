@@ -41,18 +41,24 @@ This is project to .
 ## Hardware
 - STM32_bluepill
   <p align="center">
-  <img src = "https://revspace.nl/images/thumb/d/d0/HTB1PemDJpXXXXXHXpXXq6xXFXXXM.jpg/525px-HTB1PemDJpXXXXXHXpXXq6xXFXXXM.jpg" width=300>
+  <img src = "https://revspace.nl/images/thumb/d/d0/HTB1PemDJpXXXXXHXpXXq6xXFXXXM.jpg/525px-HTB1PemDJpXXXXXHXpXXq6xXFXXXM.jpg" width=100>
   </p>
 - Mini st-link
     <p align="center">
-  <img src = "https://th.bing.com/th/id/R.88bef7492e86f3e24a900d5ffb52ebd5?rik=CJJ9Bo9uV29x0g&pid=ImgRaw&r=0" width=300>
+  <img src = "https://th.bing.com/th/id/R.88bef7492e86f3e24a900d5ffb52ebd5?rik=CJJ9Bo9uV29x0g&pid=ImgRaw&r=0" width=100>
   </p>
-- ESP32-CAM Ai-Thinker <img src = "https://th.bing.com/th/id/R.1031d45721d12f524c678ec41e03a88b?rik=qKGzvHyYwmnN9Q&pid=ImgRaw&r=0" width=300>
-- Lcd1602 + PCF8574A I2C I/O Expander <img src = "https://th.bing.com/th/id/OIP.nBio-mZ9nwCBGAJPsgjmqwHaFj?pid=ImgDet&w=174&h=130&c=7&dpr=1.7" width=300>
-- TTP229 capacitive keypad <img src = "https://www.circuits-diy.com/wp-content/uploads/2021/10/ttp229-16-channel-digital-capacitive-touch-keypad-module-datasheet.jpg" width=300>
-- AS608 FingerPrint Sensor <img src = "https://www.electronicscomp.com/image/cache/catalog/as608-optical-fingerprint-sensor-fingerprint-module-400x400.jpg" width=300>
-- Ultrasonic sensor HC-SR04 <img src = "https://shop.sb-components.co.uk/cdn/shop/products/ultrasonic_720_660.png?v=1528312556&width=700" width=300>
-- LY-03 electric lock 12V <img src = "https://www.chipskey.cc/bmz_cache/d/d348a21d6695845c8667300d35e10e91.image.420x420.jpg" width=300>
+- ESP32-CAM Ai-Thinker
+  <img src = "https://th.bing.com/th/id/R.1031d45721d12f524c678ec41e03a88b?rik=qKGzvHyYwmnN9Q&pid=ImgRaw&r=0" width=100>
+- Lcd1602 + PCF8574A I2C I/O Expander
+  <img src = "https://th.bing.com/th/id/OIP.nBio-mZ9nwCBGAJPsgjmqwHaFj?pid=ImgDet&w=174&h=130&c=7&dpr=1.7" width=100>
+- TTP229 capacitive keypad
+  <img src = "https://www.circuits-diy.com/wp-content/uploads/2021/10/ttp229-16-channel-digital-capacitive-touch-keypad-module-datasheet.jpg" width=100>
+- AS608 FingerPrint Sensor
+  <img src = "https://www.electronicscomp.com/image/cache/catalog/as608-optical-fingerprint-sensor-fingerprint-module-400x400.jpg" width=100>
+- Ultrasonic sensor HC-SR04
+  <img src = "https://shop.sb-components.co.uk/cdn/shop/products/ultrasonic_720_660.png?v=1528312556&width=700" width=100>
+- LY-03 electric lock 12V
+  <img src = "https://www.chipskey.cc/bmz_cache/d/d348a21d6695845c8667300d35e10e91.image.420x420.jpg" width=100>
 - Buzzer, button, capacitor, trasistor, resistor, wire, jumper,etc...
   
 ## Software
