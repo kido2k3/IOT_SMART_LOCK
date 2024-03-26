@@ -34,7 +34,7 @@ This is IoT project that we build a Smart Lock.
 -  Opening by either the user's fingerprint or the input password.
 -  Have a button to open from indoor.
 -  Display by LCD.
--  If a person fill in the wrong password exceeding 3 times, alarm buzzer and flash led.
+-  If a person fills in the wrong password exceeding 3 times, alarm buzzer and flash led.
 -  Recording the number of people in the room.
 -  Opening remotely via Internet.
 
